@@ -22,7 +22,11 @@ on:
       defconfig:
        description: '配置文件名称'
        required: true
-       default: 'defconfig'
+       default: 'gki_defconfig'
+      kernel_fragments:
+       description: '厂商配置碎片路径（必须填）'
+       required: true
+       default: 'vendor/kalama_le_GKI.config'
 
 jobs:
   build:
