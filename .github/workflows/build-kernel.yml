@@ -69,6 +69,8 @@ jobs:
           echo "Moving kernel source to /kernel_platform/common..."
           sudo mv kernel_source/* /kernel_platform/common/
           sudo rm -rf kernel_source
+          echo "Changing ownership of kernel_platform..."
+          sudo chown -R $USER:$USER /kernel_platform
           echo "Final structure:"
           ls -la /kernel_platform/
           ls -la /kernel_platform/common/
@@ -88,7 +90,6 @@ jobs:
           make ARCH=arm64 LLVM=1 O=out olddefconfig
       - name: 编译内核
         run: |
-          sudo chown -R $USER:$USER /kernel_platform
           cd /kernel_platform/common
           echo "开始编译..."
           make ARCH=arm64 LLVM=1 O=out -j$(nproc --all)
