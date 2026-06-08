@@ -72,12 +72,23 @@ jobs:
           echo "Final structure:"
           ls -la /kernel_platform/
           ls -la /kernel_platform/common/
+      - name: 精简调试配置（防 OOM）
+        run: |
+          cd /kernel_platform/common
+          scripts/config --file out/.config \
+          -d CONFIG_KASAN \
+          -d CONFIG_KASAN_HW_TAGS \
+          -d CONFIG_UBSAN \
+          -d CONFIG_UBSAN_TRAP \
+          -d CONFIG_LTO_CLANG_FULL \
+          -e CONFIG_LTO_CLANG_THIN
+          make ARCH=arm64 LLVM=1 O=out olddefconfig
       - name: 编译内核
         run: |
           sudo chown -R $USER:$USER /kernel_platform
           cd /kernel_platform/common
-          echo "Running make gki_defconfig..."
-          make ARCH=arm64 LLVM=1 O=out ${{ github.event.inputs.defconfig }}
+          echo "Running make gki_defconfig + vendor fragments..."
+          make ARCH=arm64 LLVM=1 O=out ${{ github.event.inputs.defconfig }} KERNEL_FRAGMENTS="${{ github.event.inputs.kernel_fragments }}"
           echo "Starting compilation..."
           make ARCH=arm64 LLVM=1 O=out -j$(nproc --all)
       - name: 上传内核文件
