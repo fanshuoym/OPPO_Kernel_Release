@@ -38,7 +38,7 @@ jobs:
       - name: 安装依赖库
         run: |
           sudo apt update
-          sudo apt install -y build-essential libssl-dev bc flex bison git zip unzip curl wget tar xz-utils cpio rsync lzop xz-utils zstd libncurses-dev libffi-dev libbz2-dev dnsutils net-tools ls[...]
+          sudo apt install -y build-essential libssl-dev bc flex bison git zip unzip curl wget tar xz-utils cpio rsync lzop xz-utils zstd libncurses-dev libffi-dev libbz2-dev dnsutils net-tools
       - name: 克隆驱动仓库源码
         run: |
           git clone --depth=1 --branch ${{ github.event.inputs.proprietary_branch }} \
