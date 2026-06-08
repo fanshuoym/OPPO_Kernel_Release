@@ -6,23 +6,23 @@ on:
       proprietary_repo:
         description: '闭源驱动仓库地址'
         required: true
-        default: 'https://github.com/OnePlusOSS/android_kernel_modules_and_devicetree_oneplus_sm8650'
+        default: 'https://github.com/fanshuoym/android_kernel_modules_and_devicetree_oneplus_sm8550.git'
       proprietary_branch:
         description: '闭源驱动仓库分支'
         required: true
-        default: 'oneplus/sm8650_b_16.0.0_oneplus_13r'
+        default: 'oneplus/sm8550_b_16.0.0_ace_2_pro'
       kernel_repo:
         description: '内核源码仓库地址'
         required: true
-        default: 'https://github.com/OnePlusOSS/android_kernel_common_oneplus_sm8650'
+        default: 'https://github.com/fanshuoym/android_kernel_oneplus_sm8550.git'
       kernel_branch:
         description: '内核源码仓库分支'
         required: true
-        default: 'oneplus/sm8650_b_16.0.0_oneplus_13r'
+        default: 'oneplus/sm8550_b_16.0.0_ace_2_pro'
       defconfig:
        description: '配置文件名称'
        required: true
-       default: 'gki_defconfig'
+       default: 'defconfig'
 
 jobs:
   build:
@@ -35,10 +35,6 @@ jobs:
         run: |
           sudo apt update
           sudo apt install -y build-essential libssl-dev bc flex bison git zip unzip curl wget tar xz-utils cpio rsync lzop xz-utils zstd libncurses-dev libffi-dev libbz2-dev dnsutils net-tools lsb-release aria2 pigz llvm clang lld dwarves libelf-dev libssl-dev
-      - name: 将swap设置为15GB
-        uses: pierotofy/set-swap-space@master
-        with:
-          swap-size-gb: 15
       - name: 克隆驱动仓库源码
         run: |
           git clone --depth=1 --branch ${{ github.event.inputs.proprietary_branch }} \
